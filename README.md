@@ -15,7 +15,7 @@ type Entity struct {
     CreatedAt time.Time `db:"created_at"`
 }
 
-var structColumns = dbmap.Columns(reflect.TypeOf(event.Event{}))
+var structColumns = dbmap.Columns(reflect.TypeOf(Entity{}))
 
 func main(){
     // ...
