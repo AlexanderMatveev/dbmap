@@ -13,9 +13,11 @@ import (
 )
 
 type Entity struct {
-    Id        int       `db:"id"`
-    Name      string    `db:"name"`
-    CreatedAt time.Time `db:"created_at"`
+    Id            int       `db:"id"`
+    Name          string    `db:"name"`
+    DateTimeField time.Time `db:"created_at"`
+    FieldNotIdDb  int
+    NullableField *int
 }
 
 var structColumns = dbmap.Columns(reflect.TypeOf(Entity{}))
