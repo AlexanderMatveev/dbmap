@@ -4,29 +4,42 @@ import (
 	"reflect"
 )
 
+const tagName = "db"
+
 func Columns(t reflect.Type) []string {
-	vs := make([]string, t.NumField())
+	var vs []string
 	for i := 0; i < t.NumField(); i++ {
-		vs[i] = t.Field(i).Tag.Get("db")
+		tag := t.Field(i).Tag.Get(tagName)
+		if tag == "" {
+			continue
+		}
+		vs = append(vs, tag)
 	}
 	return vs
 }
 
 func Values(s any) []any {
 	v := reflect.ValueOf(s)
-	vs := make([]interface{}, v.NumField())
+	t := reflect.TypeOf(s)
+	var vs []any
 	for i := 0; i < v.NumField(); i++ {
-		vs[i] = v.Field(i).Interface()
+		if t.Field(i).Tag.Get(tagName) == "" {
+			continue
+		}
+		vs = append(vs, v.Field(i).Interface())
 	}
 	return vs
 }
 
 func Scan(s any) []any {
-	vo := reflect.ValueOf(s).Elem()
-	vs := make([]interface{}, vo.NumField())
-	for i := 0; i < vo.NumField(); i++ {
-		f := vo.Field(i)
-		vs[i] = f.Addr().Interface()
+	v := reflect.ValueOf(s).Elem()
+	t := reflect.TypeOf(s).Elem()
+	var vs []any
+	for i := 0; i < v.NumField(); i++ {
+		if t.Field(i).Tag.Get(tagName) == "" {
+			continue
+		}
+		vs = append(vs, v.Field(i).Addr().Interface())
 	}
 	return vs
 }

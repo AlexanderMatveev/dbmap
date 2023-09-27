@@ -7,9 +7,11 @@ import (
 )
 
 type Entity struct {
-	Id        int       `db:"id"`
-	Name      string    `db:"name"`
-	CreatedAt time.Time `db:"created_at"`
+	Id            int       `db:"id"`
+	NullableField *int      `db:"nullable_field"`
+	Name          string    `db:"name"`
+	CreatedAt     time.Time `db:"created_at"`
+	FieldNotIdDb  int
 }
 
 func TestColumns(t *testing.T) {
@@ -28,6 +30,7 @@ func TestColumns(t *testing.T) {
 			},
 			want: []string{
 				"id",
+				"nullable_field",
 				"name",
 				"created_at",
 			},
@@ -47,9 +50,10 @@ func TestScan(t *testing.T) {
 		s any
 	}
 	e := Entity{
-		Id:        1,
-		Name:      "Test",
-		CreatedAt: time.Now(),
+		Id:            1,
+		NullableField: nil,
+		Name:          "Test",
+		CreatedAt:     time.Now(),
 	}
 	tests := []struct {
 		name string
@@ -63,6 +67,7 @@ func TestScan(t *testing.T) {
 			},
 			want: []any{
 				&e.Id,
+				&e.NullableField,
 				&e.Name,
 				&e.CreatedAt,
 			},
@@ -98,6 +103,7 @@ func TestValues(t *testing.T) {
 			},
 			want: []any{
 				e.Id,
+				e.NullableField,
 				e.Name,
 				e.CreatedAt,
 			},
