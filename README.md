@@ -1,5 +1,5 @@
 # DbMap
-Tiny package to auto map struct fields to database columns and vice versa without ORM's.
+Tiny zero-dependency package to auto map struct fields to database columns and vice versa without ORM's.
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/AlexanderMatveev/dbmap)](https://goreportcard.com/report/github.com/AlexanderMatveev/dbmap)
 
